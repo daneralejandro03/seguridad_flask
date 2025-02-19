@@ -4,6 +4,8 @@ from datetime import datetime
 from flask import Flask, request, jsonify
 from azure.communication.email import EmailClient
 from dotenv import load_dotenv
+from flask_cors import CORS
+
 
 # Cargar variables de entorno desde .env
 load_dotenv()
@@ -12,6 +14,7 @@ load_dotenv()
 logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 app = Flask(__name__)
+CORS(app)
 
 @app.route('/send', methods=['GET'])
 def send_data():
