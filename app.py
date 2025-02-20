@@ -6,7 +6,6 @@ from azure.communication.email import EmailClient
 from dotenv import load_dotenv
 from flask_cors import CORS
 
-
 # Cargar variables de entorno desde .env
 load_dotenv()
 
@@ -59,22 +58,25 @@ def send_data():
         # Obtener datos desde las variables de entorno
         connection_string = os.environ.get("CONNECTION_STRING")
         sender_address = os.environ.get("SENDER_ADDRESS")
-        recipient_address = os.environ.get("RECIPIENT_ADDRESS")
+        recipient_addresses = os.environ.get("RECIPIENT_ADDRESS")
 
         # Validar que todas las variables necesarias estén definidas
-        if not all([connection_string, sender_address, recipient_address]):
+        if not all([connection_string, sender_address, recipient_addresses]):
             raise ValueError("Una o más variables de entorno requeridas no están definidas.")
 
-        logging.info("Conexión a Azure establecida. Enviando correo de %s a %s", sender_address, recipient_address)
+        # Convertir la cadena de correos en una lista, separando por comas
+        recipients_list = [email.strip() for email in recipient_addresses.split(',')]
+
+        logging.info("Conexión a Azure establecida. Enviando correo de %s a %s", sender_address, recipients_list)
 
         # Inicializar el cliente de correo
         email_client = EmailClient.from_connection_string(connection_string)
 
-        # Configurar el mensaje de correo
+        # Configurar el mensaje de correo con múltiples destinatarios
         message = {
             "senderAddress": sender_address,
             "recipients": {
-                "to": [{"address": recipient_address}],
+                "to": [{"address": email} for email in recipients_list],
             },
             "content": {
                 "subject": "Alerta de ubicación recibida",
