@@ -24,7 +24,7 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
 
-# Modelo de la tabla 'ruta'
+# Modelo de la tabla 'ruta1'
 class Ruta(db.Model):
     __tablename__ = 'ruta'
     id = db.Column(db.Integer, primary_key=True)
