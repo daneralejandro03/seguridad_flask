@@ -26,7 +26,7 @@ db = SQLAlchemy(app)
 
 # Modelo de la tabla 'ruta1'
 class Ruta(db.Model):
-    __tablename__ = 'ruta'
+    __tablename__ = 'ruta1'
     id = db.Column(db.Integer, primary_key=True)
     latitud = db.Column(db.String(50), nullable=False)
     longitud = db.Column(db.String(50), nullable=False)
